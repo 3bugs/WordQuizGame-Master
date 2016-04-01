@@ -13,7 +13,7 @@
               tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -24,7 +24,7 @@
         android:textStyle="bold"/>
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/logo_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -40,6 +40,7 @@
             android:id="@+id/play_game_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:text="@string/play_game_label"/>
 
@@ -47,6 +48,7 @@
             android:id="@+id/high_score_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:text="@string/high_score_label"/>
 

@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <!--สีข้อความ title-->
-    <color name="title_color">#ff005e</color>
+    <color name="title_color">#fd7a00</color>
     <!--สีพื้นหลัง-->
-    <color name="background_color">#fff8ae</color>    
+    <color name="background_color">#fff9be</color>
 </resources>
