@@ -23,16 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private Button mPlayGameButton;
-    private Button mHighScoreButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPlayGameButton = (Button) findViewById(R.id.play_game_button);
-        mPlayGameButton.setOnClickListener(new View.OnClickListener() {
+        Button playGameButton = (Button) findViewById(R.id.play_game_button);
+        playGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("MainActivity", "Hello log");
@@ -44,48 +41,13 @@ public class MainActivity extends AppCompatActivity {
                 );
                 t.show();
 
+                //showPlainChooseDifficultyDialog();
                 showCustomChooseDifficultyDialog();
-
-/*
-                final String[] items = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                dialog.setTitle("เลือกระดับความยาก");
-                //dialog.setMessage("Message");
-                dialog.setIcon(R.drawable.abc);
-                dialog.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i(TAG, "คุณเลือก: " + items[which]);
-
-                        Intent i = new Intent(MainActivity.this, GameActivity.class);
-                        i.putExtra(GameActivity.KEY_DIFFICULTY, which);
-                        startActivity(i);
-                    }
-                });
-                dialog.show();
-*/
-
-/*
-                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i(TAG, "คุณคลิกปุ่ม OK");
-                    }
-                });
-
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i(TAG, "คุณคลิกปุ่ม Cancel");
-                    }
-                });
-*/
             }
         });
 
-        mHighScoreButton = (Button) findViewById(R.id.high_score_button);
-        mHighScoreButton.setOnClickListener(new View.OnClickListener() {
+        Button highScoreButton = (Button) findViewById(R.id.high_score_button);
+        highScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, HighScoreActivity.class);
@@ -94,12 +56,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showPlainChooseDifficultyDialog() {
+        final String[] items = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setTitle("เลือกระดับความยาก");
+        dialog.setIcon(R.drawable.abc);
+        dialog.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG, "คุณเลือก: " + items[which]);
+
+                Intent i = new Intent(MainActivity.this, GameActivity.class);
+                i.putExtra(GameActivity.KEY_DIFFICULTY, which);
+                startActivity(i);
+            }
+        });
+        dialog.show();
+
+/*
+        dialog.setMessage("Message");
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG, "คุณคลิกปุ่ม OK");
+            }
+        });
+
+        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG, "คุณคลิกปุ่ม Cancel");
+            }
+        });
+*/
+    }
+
     private void showCustomChooseDifficultyDialog() {
-        AlertDialog.Builder chooseDiffDialog = new AlertDialog.Builder(MainActivity.this);
-
-        chooseDiffDialog.setTitle("เลือกระดับความยาก");
-        chooseDiffDialog.setCancelable(true);
-
         final String[] items = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
         DifficultyOptionsAdapter adapter = new DifficultyOptionsAdapter(
                 this,
@@ -107,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
                 new ArrayList<>(Arrays.asList(items))
         );
 
-        chooseDiffDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setTitle("เลือกระดับความยาก");
+        dialog.setIcon(R.drawable.abc);
+        dialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -115,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        chooseDiffDialog.show();
+        dialog.show();
     }
 
     @Override
