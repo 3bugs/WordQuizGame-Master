@@ -79,7 +79,7 @@ public class HighScoreActivity extends AppCompatActivity {
                 DatabaseHelper.COL_SCORE
         };
         int[] views = {
-                R.id.scoreTextView
+                R.id.score_text_view
         };
 
         mAdapter = new SimpleCursorAdapter(this, R.layout.high_score_row, null, columns, views, 0);

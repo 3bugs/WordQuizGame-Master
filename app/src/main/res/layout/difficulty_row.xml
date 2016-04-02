@@ -7,7 +7,7 @@
               android:padding="8dp">
 
     <TextView
-        android:id="@+id/difficultyTextView"
+        android:id="@+id/difficulty_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -18,7 +18,7 @@
         android:textStyle="bold"/>
 
     <ImageView
-        android:id="@+id/difficultyImageView"
+        android:id="@+id/difficulty_image_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginRight="30dp"

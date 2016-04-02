@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(itemLayoutId, parent, false);
 
-            TextView difficultyTextView = (TextView) row.findViewById(R.id.difficultyTextView);
-            ImageView difficultyImageView = (ImageView) row.findViewById(R.id.difficultyImageView);
+            TextView difficultyTextView = (TextView) row.findViewById(R.id.difficulty_text_view);
+            ImageView difficultyImageView = (ImageView) row.findViewById(R.id.difficulty_image_view);
 
             String diff = difficulties.get(position);
             difficultyTextView.setText(diff);
