@@ -55,45 +55,44 @@ public class MainActivity extends AppCompatActivity {
 
     private void showPlainChooseDifficultyDialog() {
         final String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
-        //final String[] diffLabels = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setTitle("เลือกระดับความยาก");
-        dialog.setIcon(R.drawable.abc);
-        dialog.setItems(diffLabels, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG, "คุณเลือก: " + diffLabels[which]);
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("เลือกระดับความยาก")
+                .setIcon(R.drawable.abc)
+                .setItems(diffLabels, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i(TAG, "คุณเลือก: " + diffLabels[which]);
 
-                Intent i = new Intent(MainActivity.this, GameActivity.class);
-                i.putExtra(GameActivity.KEY_DIFFICULTY, which);
-                startActivity(i);
-            }
-        });
-        dialog.show();
+                        Intent i = new Intent(MainActivity.this, GameActivity.class);
+                        i.putExtra(GameActivity.KEY_DIFFICULTY, which);
+                        startActivity(i);
+                    }
+                })
+                .show();
     }
 
     private void showCustomChooseDifficultyDialog() {
         final String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
-        //final String[] diffLabels = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
+
         DifficultyOptionsAdapter adapter = new DifficultyOptionsAdapter(
                 this,
                 R.layout.difficulty_row,
                 diffLabels
         );
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setTitle("เลือกระดับความยาก");
-        dialog.setIcon(R.drawable.abc);
-        dialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra(GameActivity.KEY_DIFFICULTY, which);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("เลือกระดับความยาก")
+                .setIcon(R.drawable.abc)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                        intent.putExtra(GameActivity.KEY_DIFFICULTY, which);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     @Override

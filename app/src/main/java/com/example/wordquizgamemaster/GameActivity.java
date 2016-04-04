@@ -88,9 +88,6 @@ public class GameActivity extends AppCompatActivity {
         mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
         mShakeAnimation.setRepeatCount(3);
 
-        mHelper = new DatabaseHelper(this);
-        mDatabase = mHelper.getWritableDatabase();
-
         getImageFileNames();
     }
 
@@ -266,31 +263,31 @@ public class GameActivity extends AppCompatActivity {
 
             // ตอบถูก และเล่นครบทุกข้อแล้ว (จบเกม)
             if (mScore == NUM_QUESTIONS_PER_QUIZ) {
-                saveScore();
-
+                double percentScore = 100 * NUM_QUESTIONS_PER_QUIZ / (double) mTotalGuesses;
+                saveScore(percentScore);
                 String msgResult = String.format(
                         "จำนวนครั้งที่ทาย: %d\nเปอร์เซ็นต์ความถูกต้อง: %.1f",
                         mTotalGuesses,
-                        100 * NUM_QUESTIONS_PER_QUIZ / (double) mTotalGuesses
+                        percentScore
                 );
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setTitle("สรุปผล");
-                dialog.setMessage(msgResult);
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("เริ่มเกมใหม่", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startQuiz();
-                    }
-                });
-                dialog.setNegativeButton("กลับหน้าหลัก", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                dialog.show();
+                new AlertDialog.Builder(this)
+                        .setTitle("สรุปผล")
+                        .setMessage(msgResult)
+                        .setCancelable(false)
+                        .setPositiveButton("เริ่มเกมใหม่", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startQuiz();
+                            }
+                        })
+                        .setNegativeButton("กลับหน้าหลัก", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .show();
             }
             // ตอบถูก แต่ยังไม่ครบทุกข้อ (ยังไม่จบเกม)
             else {
@@ -332,12 +329,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void saveScore() {
+    private void saveScore(double percentScore) {
         ContentValues cv = new ContentValues();
-
-        double percentScore = 100 * NUM_QUESTIONS_PER_QUIZ / (double) mTotalGuesses;
-
-        cv.put(DatabaseHelper.COL_SCORE, percentScore);
+        cv.put(DatabaseHelper.COL_SCORE, String.format("%.1f", percentScore));
         cv.put(DatabaseHelper.COL_DIFFICULTY, mDifficulty);
         mDatabase.insert(DatabaseHelper.TABLE_NAME, null, cv);
     }

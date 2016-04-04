@@ -17,7 +17,7 @@ public class HighScoreActivity extends AppCompatActivity {
 
     private static final String TAG = HighScoreActivity.class.getSimpleName();
 
-    private ListView mList;
+    private ListView mHighScoreListView;
     private DatabaseHelper mHelper;
     private SQLiteDatabase mDatabase;
     private SimpleCursorAdapter mAdapter;
@@ -30,7 +30,7 @@ public class HighScoreActivity extends AppCompatActivity {
         mHelper = new DatabaseHelper(this);
         mDatabase = mHelper.getWritableDatabase();
 
-        mList = (ListView) findViewById(R.id.high_score_list_view);
+        mHighScoreListView = (ListView) findViewById(R.id.high_score_list_view);
         setListAdapter();
 
         // กำหนดข้อความปุ่มเรดิโอ
@@ -73,7 +73,7 @@ public class HighScoreActivity extends AppCompatActivity {
         };
 
         mAdapter = new SimpleCursorAdapter(this, R.layout.high_score_row, null, columns, views, 0);
-        mList.setAdapter(mAdapter);
+        mHighScoreListView.setAdapter(mAdapter);
     }
 
     void showHighScoreByDifficulty(int difficulty) {
