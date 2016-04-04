@@ -4,4 +4,14 @@
     <string name="app_title">Word Quiz Game</string>
     <string name="play_game_label">Play Game</string>
     <string name="high_score_label">High Score</string>
+
+    <string name="easy_label">Easy</string>
+    <string name="medium_label">Medium</string>
+    <string name="hard_label">Hard</string>
+
+    <string-array name="difficulty_labels">
+        <item name="easy">@string/easy_label</item>
+        <item name="medium">@string/medium_label</item>
+        <item name="hard">@string/hard_label</item>
+    </string-array>
 </resources>

@@ -56,8 +56,7 @@ public class GameActivity extends AppCompatActivity {
 
     private Random mRandom = new Random();
     private Handler mHandler = new Handler();
-
-    private Animation shakeAnimation;
+    private Animation mShakeAnimation;
 
     private DatabaseHelper mHelper;
     private SQLiteDatabase mDatabase;
@@ -86,13 +85,20 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
 
-        shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
-        shakeAnimation.setRepeatCount(3);
+        mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
+        mShakeAnimation.setRepeatCount(3);
 
         mHelper = new DatabaseHelper(this);
         mDatabase = mHelper.getWritableDatabase();
 
         getImageFileNames();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.close();
+        mHelper.close();
     }
 
     private void setupViews() {
@@ -136,7 +142,7 @@ public class GameActivity extends AppCompatActivity {
             int randomIndex = mRandom.nextInt(mFileNameList.size());
             String fileName = mFileNameList.get(randomIndex);
 
-            if (mQuizWordList.contains(fileName) == false) {
+            if (!mQuizWordList.contains(fileName)) {
                 mQuizWordList.add(fileName);
             }
         }
@@ -306,7 +312,7 @@ public class GameActivity extends AppCompatActivity {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.fail);
             mp.start();
 
-            mQuestionImageView.startAnimation(shakeAnimation);
+            mQuestionImageView.startAnimation(mShakeAnimation);
 
             String msg = "ผิดครับ ลองใหม่นะครับ";
             mAnswerTextView.setText(msg);

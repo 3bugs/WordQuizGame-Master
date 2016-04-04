@@ -4,4 +4,7 @@
     <string name="app_title">เกมทายคำศัพท์\nภาษาอังกฤษ</string>
     <string name="play_game_label">เล่นเกม</string>
     <string name="high_score_label">คะแนนสูงสุด</string>
+    <string name="easy_label">ง่าย</string>
+    <string name="hard_label">ยาก</string>
+    <string name="medium_label">ปานกลาง</string>
 </resources>

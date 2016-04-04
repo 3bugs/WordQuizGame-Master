@@ -11,55 +11,45 @@ import android.widget.RadioGroup;
 
 import com.example.wordquizgamemaster.db.DatabaseHelper;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class HighScoreActivity extends AppCompatActivity {
-    private static final String EASY = "ง่าย";
-    private static final String MEDIUM = "ปานกลาง";
-    private static final String HARD = "ยาก";
+
+    private static final String TAG = HighScoreActivity.class.getSimpleName();
 
     private ListView mList;
-    private DatabaseHelper mDbHelper;
+    private DatabaseHelper mHelper;
     private SQLiteDatabase mDatabase;
     private SimpleCursorAdapter mAdapter;
-    private HashMap<String, Integer> mDifficultyMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
 
-        mDbHelper = new DatabaseHelper(this);
-        mDatabase = mDbHelper.getWritableDatabase();
-
-        // ข้อมูลแต่ละชุดใน HashMap จะมีคีย์เป็นข้อความที่แสดงกำกับปุ่มเรดิโอ (ง่าย, ปานกลาง, ยาก)
-        // และมีค่าเป็น constant ที่กำหนดในคลาส DatabaseHelper
-        // หน้าที่ของ HashMap นี้ ก็เพื่อให้เราเอาข้อความของปุ่มเรดิโอ ไปดึงค่า constant ที่สัมพันธ์กันมาใช้งาน
-        mDifficultyMap = new HashMap<String, Integer>();
-        mDifficultyMap.put(EASY, DatabaseHelper.DIFFICULTY_EASY);
-        mDifficultyMap.put(MEDIUM, DatabaseHelper.DIFFICULTY_MEDIUM);
-        mDifficultyMap.put(HARD, DatabaseHelper.DIFFICULTY_HARD);
+        mHelper = new DatabaseHelper(this);
+        mDatabase = mHelper.getWritableDatabase();
 
         mList = (ListView) findViewById(R.id.high_score_list_view);
         setListAdapter();
 
         // กำหนดข้อความปุ่มเรดิโอ
         RadioButton easyRadioButton = (RadioButton) findViewById(R.id.easy_radio_button);
-        easyRadioButton.setText(EASY);
-
+        easyRadioButton.setText(R.string.easy_label);
         RadioButton mediumRadioButton = (RadioButton) findViewById(R.id.medium_radio_button);
-        mediumRadioButton.setText(MEDIUM);
-
+        mediumRadioButton.setText(R.string.medium_label);
         RadioButton hardRadioButton = (RadioButton) findViewById(R.id.hard_radio_button);
-        hardRadioButton.setText(HARD);
+        hardRadioButton.setText(R.string.hard_label);
 
         // กำหนด Checked Change Listener ให้กับ RadioGroup
         RadioGroup difficultyRadioGroup = (RadioGroup) findViewById(R.id.difficulty_radio_group);
         difficultyRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radio = (RadioButton) findViewById(checkedId);
-                showHighScoreByDifficulty(radio.getText().toString());
+                String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
+                String selectedRadioLabel = ((RadioButton) findViewById(checkedId)).getText().toString();
+                int diffIndex = Arrays.asList(diffLabels).indexOf(selectedRadioLabel);
+                showHighScoreByDifficulty(diffIndex);
             }
         });
 
@@ -71,14 +61,14 @@ public class HighScoreActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.close();
-        mDbHelper.close();
+        mHelper.close();
     }
 
     void setListAdapter() {
-        String[] columns = {
+        final String[] columns = {
                 DatabaseHelper.COL_SCORE
         };
-        int[] views = {
+        final int[] views = {
                 R.id.score_text_view
         };
 
@@ -86,13 +76,24 @@ public class HighScoreActivity extends AppCompatActivity {
         mList.setAdapter(mAdapter);
     }
 
-    void showHighScoreByDifficulty(String difficulty) {
-        String sqlSelect = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
-                " WHERE " + DatabaseHelper.COL_DIFFICULTY + "=" +
-                mDifficultyMap.get(difficulty) +
+    void showHighScoreByDifficulty(int difficulty) {
+/*
+        final String sqlSelect = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
+                " WHERE " + DatabaseHelper.COL_DIFFICULTY + "=" + difficulty +
                 " ORDER BY " + DatabaseHelper.COL_SCORE + " DESC LIMIT 5";
-
         Cursor cursor = mDatabase.rawQuery(sqlSelect, null);
+*/
+
+        Cursor cursor = mDatabase.query(
+                DatabaseHelper.TABLE_NAME,
+                null,
+                DatabaseHelper.COL_DIFFICULTY + "=?",
+                new String[]{String.valueOf(difficulty)},
+                null,
+                null,
+                DatabaseHelper.COL_SCORE + " DESC",
+                "5"
+        );
         mAdapter.changeCursor(cursor);
     }
 }

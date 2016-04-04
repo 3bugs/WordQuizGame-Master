@@ -17,9 +17,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_SCORE = "score";
     public static final String COL_DIFFICULTY = "difficulty";
 
+/*
     public static final int DIFFICULTY_EASY = 0;
     public static final int DIFFICULTY_MEDIUM = 1;
     public static final int DIFFICULTY_HARD = 2;
+*/
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

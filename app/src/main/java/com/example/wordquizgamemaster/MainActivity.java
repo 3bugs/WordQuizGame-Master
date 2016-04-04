@@ -16,9 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -57,15 +54,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showPlainChooseDifficultyDialog() {
-        final String[] items = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
+        final String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
+        //final String[] diffLabels = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setTitle("เลือกระดับความยาก");
         dialog.setIcon(R.drawable.abc);
-        dialog.setItems(items, new DialogInterface.OnClickListener() {
+        dialog.setItems(diffLabels, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG, "คุณเลือก: " + items[which]);
+                Log.i(TAG, "คุณเลือก: " + diffLabels[which]);
 
                 Intent i = new Intent(MainActivity.this, GameActivity.class);
                 i.putExtra(GameActivity.KEY_DIFFICULTY, which);
@@ -73,31 +71,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
-
-/*
-        dialog.setMessage("Message");
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG, "คุณคลิกปุ่ม OK");
-            }
-        });
-
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG, "คุณคลิกปุ่ม Cancel");
-            }
-        });
-*/
     }
 
     private void showCustomChooseDifficultyDialog() {
-        final String[] items = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
+        final String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
+        //final String[] diffLabels = new String[]{"ง่าย", "ปานกลาง", "ยาก"};
         DifficultyOptionsAdapter adapter = new DifficultyOptionsAdapter(
                 this,
                 R.layout.difficulty_row,
-                new ArrayList<>(Arrays.asList(items))
+                diffLabels
         );
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -128,29 +110,30 @@ public class MainActivity extends AppCompatActivity {
 
     private static class DifficultyOptionsAdapter extends ArrayAdapter<String> {
 
-        private Context context;
-        private int itemLayoutId;
-        private ArrayList<String> difficulties;
+        private Context mContext;
+        private int mItemLayoutId;
+        private String[] mDifficulties;
 
         public DifficultyOptionsAdapter(Context context, int itemLayoutId,
-                                        ArrayList<String> difficulties) {
+                                        String[] difficulties) {
             super(context, itemLayoutId, difficulties);
 
-            this.context = context;
-            this.itemLayoutId = itemLayoutId;
-            this.difficulties = difficulties;
+            this.mContext = context;
+            this.mItemLayoutId = itemLayoutId;
+            this.mDifficulties = difficulties;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater)
-                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = inflater.inflate(itemLayoutId, parent, false);
+                    mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View row = inflater.inflate(mItemLayoutId, parent, false);
 
             TextView difficultyTextView = (TextView) row.findViewById(R.id.difficulty_text_view);
             ImageView difficultyImageView = (ImageView) row.findViewById(R.id.difficulty_image_view);
 
-            String diff = difficulties.get(position);
+            String diff = mDifficulties[position];
             difficultyTextView.setText(diff);
 
             if (diff.equals("ง่าย")) {
