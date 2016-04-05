@@ -26,8 +26,7 @@
         <activity
             android:name=".HighScoreActivity"
             android:label="@string/high_score_label"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
 
     </application>
-
 </manifest>

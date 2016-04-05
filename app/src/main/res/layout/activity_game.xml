@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:text="เลือกคำศัพท์ที่ถูกต้อง"
+        android:text="@string/guess_label"
         android:textSize="20sp"/>
 
     <TableLayout

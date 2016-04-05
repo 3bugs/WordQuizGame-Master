@@ -23,13 +23,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate");
+
         setContentView(R.layout.activity_main);
 
         Button playGameButton = (Button) findViewById(R.id.play_game_button);
         playGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("MainActivity", "Hello log");
+                Log.i(TAG, "Hello log");
 
                 Toast t = Toast.makeText(
                         MainActivity.this,
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         final String[] diffLabels = getResources().getStringArray(R.array.difficulty_labels);
 
         new AlertDialog.Builder(MainActivity.this)
-                .setTitle("เลือกระดับความยาก")
+                .setTitle(getString(R.string.choose_difficulty_title))
                 .setIcon(R.drawable.abc)
                 .setItems(diffLabels, new DialogInterface.OnClickListener() {
                     @Override
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         new AlertDialog.Builder(MainActivity.this)
-                .setTitle("เลือกระดับความยาก")
+                .setTitle(getString(R.string.choose_difficulty_title))
                 .setIcon(R.drawable.abc)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
@@ -93,18 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Music.play(this, R.raw.main);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Music.stop();
     }
 
     private static class DifficultyOptionsAdapter extends ArrayAdapter<String> {
@@ -135,15 +125,53 @@ public class MainActivity extends AppCompatActivity {
             String diff = mDifficulties[position];
             difficultyTextView.setText(diff);
 
-            if (diff.equals("ง่าย")) {
+            if (diff.equals(mContext.getString(R.string.easy_label))) {
                 difficultyImageView.setImageResource(R.drawable.dog_easy);
-            } else if (diff.equals("ปานกลาง")) {
+            } else if (diff.equals(mContext.getString(R.string.medium_label))) {
                 difficultyImageView.setImageResource(R.drawable.dog_medium);
-            } else if (diff.equals("ยาก")) {
+            } else if (diff.equals(mContext.getString(R.string.hard_label))) {
                 difficultyImageView.setImageResource(R.drawable.dog_hard);
             }
 
             return row;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart");
+        Music.play(this, R.raw.main);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop");
+        Music.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart");
     }
 }

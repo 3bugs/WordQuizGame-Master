@@ -156,7 +156,7 @@ public class GameActivity extends AppCompatActivity {
         mAnswerTextView.setText(null);
         mAnswerFileName = mQuizWordList.remove(0);
 
-        String msg = String.format("คำถาม %d จาก %d", mScore + 1, NUM_QUESTIONS_PER_QUIZ);
+        String msg = getString(R.string.question_number_label, mScore + 1, NUM_QUESTIONS_PER_QUIZ);
         mQuestionNumberTextView.setText(msg);
 
         Log.i(TAG, "***** ชื่อไฟล์รูปภาพคำถามคือ " + mAnswerFileName);
@@ -254,7 +254,7 @@ public class GameActivity extends AppCompatActivity {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.applause);
             mp.start();
 
-            String msg = guessWord + " ถูกต้องนะคร้าบบ";
+            String msg = guessWord + " " + getString(R.string.correct_label);
             mAnswerTextView.setText(msg);
             mAnswerTextView.setTextColor(
                     ContextCompat.getColor(this, android.R.color.holo_green_dark));
@@ -265,28 +265,28 @@ public class GameActivity extends AppCompatActivity {
             if (mScore == NUM_QUESTIONS_PER_QUIZ) {
                 double percentScore = 100 * NUM_QUESTIONS_PER_QUIZ / (double) mTotalGuesses;
                 saveScore(percentScore);
-                String msgResult = String.format(
-                        "จำนวนครั้งที่ทาย: %d\nเปอร์เซ็นต์ความถูกต้อง: %.1f",
-                        mTotalGuesses,
-                        percentScore
-                );
+
+                String dialogMsg = getString(R.string.total_guesses_label, mTotalGuesses);
+                dialogMsg += "\n" + getString(R.string.success_percentage_label, percentScore);
 
                 new AlertDialog.Builder(this)
-                        .setTitle("สรุปผล")
-                        .setMessage(msgResult)
+                        .setTitle(getString(R.string.result_title))
+                        .setMessage(dialogMsg)
                         .setCancelable(false)
-                        .setPositiveButton("เริ่มเกมใหม่", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startQuiz();
-                            }
-                        })
-                        .setNegativeButton("กลับหน้าหลัก", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        .setPositiveButton(getString(R.string.restart_quiz_label),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startQuiz();
+                                    }
+                                })
+                        .setNegativeButton(getString(R.string.return_to_menu_label),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
                         .show();
             }
             // ตอบถูก แต่ยังไม่ครบทุกข้อ (ยังไม่จบเกม)
@@ -311,7 +311,7 @@ public class GameActivity extends AppCompatActivity {
 
             mQuestionImageView.startAnimation(mShakeAnimation);
 
-            String msg = "ผิดครับ ลองใหม่นะครับ";
+            String msg = getString(R.string.incorrect_label);
             mAnswerTextView.setText(msg);
             mAnswerTextView.setTextColor(
                     ContextCompat.getColor(this, android.R.color.holo_red_dark));
