@@ -17,4 +17,6 @@
     <string name="return_to_menu_label">กลับหน้าหลัก</string>
     <string name="success_percentage_label">เปอร์เซ็นต์ความสำเร็จ: %1$.1f</string>
     <string name="total_guesses_label">จำนวนครั้งที่ทาย: %1$d</string>
+    <string name="action_settings">การตั้งค่า</string>
+    <string name="no_data">ไม่มีข้อมูล</string>
 </resources>

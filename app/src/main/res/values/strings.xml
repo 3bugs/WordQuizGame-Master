@@ -6,7 +6,6 @@
     <string name="high_score_label">High Score</string>
 
     <string name="choose_difficulty_title">Choose Difficulty Level</string>
-
     <string name="easy_label">Easy</string>
     <string name="medium_label">Medium</string>
     <string name="hard_label">Hard</string>
@@ -27,4 +26,7 @@
     <string name="success_percentage_label">Success percentage: %1$.1f</string>
     <string name="restart_quiz_label">Restart Quiz</string>
     <string name="return_to_menu_label">Return to Menu</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="no_data">No data</string>
 </resources>

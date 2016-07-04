@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.wordquizgamemaster.db.DatabaseHelper;
 
@@ -31,6 +32,9 @@ public class HighScoreActivity extends AppCompatActivity {
         mDatabase = mHelper.getWritableDatabase();
 
         mHighScoreListView = (ListView) findViewById(R.id.high_score_list_view);
+        TextView emptyView = (TextView) findViewById(R.id.empty);
+        mHighScoreListView.setEmptyView(emptyView);
+
         setListAdapter();
 
         // กำหนดข้อความปุ่มเรดิโอ
